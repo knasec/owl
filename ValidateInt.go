@@ -1,37 +1,35 @@
 package main
 
 import (
-    "strconv"
-    "errors"
-    "strings"
-    "fmt"
+	"errors"
+	"strconv"
+	"strings"
 )
 
-func ValidateInt(str string, encoding string) (int, error){
-    number, err := strconv.Atoi(str)
+// ErrNotANumber is a error when input data is not a number
+var ErrNotANumber = errors.New("Not a number")
 
-    if encoding == "ASCII"{
-        asciiCodes := strings.Split(str, " ")
+// ValidateInt is a function to validate incoming data and return correct int value or error
+func ValidateInt(str string, encoding string) (int, error) {
+	number, err := strconv.Atoi(str)
 
-        var result string
-        for _, code := range asciiCodes {
-            charCode, err := strconv.Atoi(code)
-            
-            if err != nil {
-                return 0, errors.New("Not a number")
-            }
-            result += string(rune(charCode))
-        }
-    }
+	if encoding == "ASCII" {
+		asciiCodes := strings.Split(str, " ")
 
-    if (err == nil){
-        return number, err
-    }
-    
-    return 0, errors.New("Not a number")
-}
+		var result string
+		for _, code := range asciiCodes {
+			charCode, err := strconv.Atoi(code)
 
-func main() {
-    number, err := ValidateInt("abcd", "utf8");
-    fmt.Println(number, err)
+			if err != nil {
+				return 0, ErrNotANumber
+			}
+			result += string(rune(charCode))
+		}
+	}
+
+	if err != nil {
+		return 0, ErrNotANumber
+	}
+
+	return number, nil
 }
