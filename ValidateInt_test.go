@@ -19,7 +19,12 @@ var tests = []struct {
 	{"asdf12341234", "utf8", 0, ErrNotANumber},
 	{"\n\n\n\n\n\n\n\n\n", "utf8", 0, ErrNotANumber},
 	{"jopa_slona5", "utf8", 0, ErrNotANumber},
-	{"1234567890", "utf8", 1234567890, nil},
+	{"0", "ASCII", 1234567890, nil},
+	{"AA", "ASCII", 1234567890, nil},
+	{"1A", "ASCII", 1234567890, nil},
+	{"1-2", "ASCII", 1234567890, nil},
+	{"-1", "ASCII", 1234567890, nil},
+	{"adf5", "ASCII", 1234567890, nil},
 }
 
 func TestValidateInt(t *testing.T) {
